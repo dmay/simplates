@@ -95,29 +95,48 @@ namespace templates
 
         private class TemplateSource
         {
+            private string _template;
+
             public TemplateSource(string template)
             {
-                throw new NotImplementedException();
+                _template = template;
+            }
+
+            public int Length
+            {
+                get { return _template.Length; }
             }
 
             public int IndexOf(string s, int starting_on, StringComparison comparison)
             {
-                throw new NotImplementedException();
+                return _template.IndexOf(s, starting_on, comparison);
             }
 
             public string Substring(int from, int to)
             {
-                throw new NotImplementedException();
+                return _template.Substring(from, to - from + 1);
             }
 
             public string Substring(int from)
             {
-                throw new NotImplementedException();
+                return _template.Substring(from);
             }
 
             public void Replace(int from, int to, string value)
             {
-                throw new NotImplementedException();
+                _template = _template
+                    .Remove(from, to - from + 1)
+                    .Insert(from, value);
+            }
+
+            public char this[int char_index]
+            {
+                get { return _template[char_index]; }
+            }
+
+            public override string ToString()
+            {
+                return _template;
             }
         }
 
