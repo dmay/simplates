@@ -183,9 +183,80 @@ namespace templates
             return token_index >= 0;
         }
 
+        private enum ReaderStates
+        {
+            Name, Splitter, Body, OpenBracket, CloseBracket, Done
+        }
+
         private static TokenEntry ReadTokenAt(TemplateSource source, int token_index)
         {
-            throw new NotImplementedException();
+            var char_index = token_index + 1;
+            var brackets_count = 1;
+            var state = ReaderStates.Name;
+            var prev_state = state;
+            var last_index = source.Length - 1;
+
+            var name = "";
+            var body = "";
+
+            while (state != ReaderStates.Done && last_index > char_index)
+            {
+                char_index++;
+                var ch = source[char_index];
+
+                switch (state)
+                {
+                    case ReaderStates.Name:
+                        if (ch == ':') state = ReaderStates.Splitter;
+                        else if (ch == '}') state = ReaderStates.CloseBracket;
+                        else name += ch;
+                        break;
+                    case ReaderStates.Splitter:
+                        prev_state = state = ReaderStates.Body;
+                        if (ch == '{') state = ReaderStates.OpenBracket;
+                        else if (ch == '}') state = ReaderStates.CloseBracket;
+                        else body += ch;
+                        break;
+                    case ReaderStates.Body:
+                        if (ch == '{') state = ReaderStates.OpenBracket;
+                        else if (ch == '}') state = ReaderStates.CloseBracket;
+                        else body += ch;
+                        break;
+                    case ReaderStates.OpenBracket:
+                        if (ch == '{') brackets_count++;
+                        state = prev_state;
+                        if (state == ReaderStates.Body) body = string.Concat(body, '{', ch);
+                        else if (state == ReaderStates.Name) name = string.Concat(name, '{', ch);
+                        break;
+                    case ReaderStates.CloseBracket:
+                        if (ch == '}')
+                        {
+                            brackets_count--;
+                            if(brackets_count==0)state = ReaderStates.Done;
+                        }
+                        if (state != ReaderStates.Done)
+                        {
+                            state = prev_state;
+                            if (state == ReaderStates.Body) body = string.Concat(body, '}', ch);
+                            else if (state == ReaderStates.Name) name = string.Concat(name, '}', ch);
+                        }
+                        break;
+                    case ReaderStates.Done:
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            if(state!=ReaderStates.Done)
+                throw new Exception("Can't read token: "+source.ToString());
+
+            return new TokenEntry
+                {
+                    Name = name,
+                    Body = body,
+                    StartsAt = token_index,
+                    EndsAt = char_index
+                };
         }
 
         private static string CalculateToken(TokenEntry token, params TokensSet[] tokens)
