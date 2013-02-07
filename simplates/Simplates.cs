@@ -28,6 +28,8 @@ namespace simplates
 
         public Token(string name, string value) : this(name, null, s => value) { }
 
+        public string Name { get { return _name; } }
+
         public string Prepare(string body, ProcessValue process, TokensSet[] tokens)
         {
             return _prepare != null ? _prepare(body, process, tokens) : body;
@@ -63,6 +65,12 @@ namespace simplates
         public TokensSet Add(string name, GetValue value)
         {
             _tokens.Add(name, new Token(name, value));
+            return this;
+        }
+
+        public TokensSet Add(Token token)
+        {
+            _tokens.Add(token.Name, token);
             return this;
         }
 
