@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace templates.tests
+namespace simplates.tests
 {
     [TestClass]
-    public class Templates_BasicOperations
+    public class Simplates_BasicOperations
     {
         [TestMethod]
         public void Templates_SimpleReplace()

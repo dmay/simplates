@@ -6,8 +6,8 @@
     <ProjectGuid>{37B545DF-DC84-484B-A977-E83DBACB3F79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>templates.tests</RootNamespace>
-    <AssemblyName>templates.tests</AssemblyName>
+    <RootNamespace>simplates.tests</RootNamespace>
+    <AssemblyName>simplates.tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,9 +34,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
@@ -50,11 +47,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Templates_BasicOperations.cs" />
+    <Compile Include="Simplates_BasicOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\templates\templates.csproj">
+    <ProjectReference Include="..\simplates\simplates.csproj">
       <Project>{b5aac2c7-319c-4c41-8443-e241b151bc98}</Project>
       <Name>templates</Name>
     </ProjectReference>

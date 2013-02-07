@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "templates", "templates\templates.csproj", "{B5AAC2C7-319C-4C41-8443-E241B151BC98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simplates", "simplates\simplates.csproj", "{B5AAC2C7-319C-4C41-8443-E241B151BC98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "templates.tests", "templates.tests\templates.tests.csproj", "{37B545DF-DC84-484B-A977-E83DBACB3F79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simplates.tests", "simplates.tests\simplates.tests.csproj", "{37B545DF-DC84-484B-A977-E83DBACB3F79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

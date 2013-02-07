@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace templates
+namespace simplates
 {
     public class Token
     {
