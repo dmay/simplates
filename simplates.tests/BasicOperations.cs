@@ -3,7 +3,7 @@
 namespace simplates.tests
 {
     [TestClass]
-    public class Simplates_BasicOperations
+    public class BasicOperations
     {
         [TestMethod]
         public void Templates_SimpleReplace()
