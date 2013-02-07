@@ -6,7 +6,7 @@ namespace simplates.tests
     public class BasicOperations
     {
         [TestMethod]
-        public void Templates_SimpleReplace()
+        public void Simplates_SimpleReplace()
         {
             var tokens = new TokensSet()
                 .Add("x1", "Hello")
@@ -20,7 +20,7 @@ namespace simplates.tests
         }
         
         [TestMethod]
-        public void Templates_NestedReplace()
+        public void Simplates_NestedReplace()
         {
             var tokens = new TokensSet()
                 .Add("x1", "Hello {{x2}}")
@@ -34,7 +34,7 @@ namespace simplates.tests
         } 
 
         [TestMethod]
-        public void Template_FuncTokens()
+        public void Simplates_FuncTokens()
         {
             var tokens = new TokensSet()
                 .Add("x1", "Hello")
