@@ -7,29 +7,30 @@ namespace simplates
     public class Token
     {
         private readonly string _name;
-        private readonly Func<string, string> _value;
+        private readonly Func<string, string> _getvalue;
+        private readonly Func<string, Func<string, TokensSet[], string>, TokensSet, string> _prepare;
 
-        public Token(string name, Func<string, string> value)
+        public Token(string name, Func<string, Func<string, TokensSet[], string>, TokensSet, string> prepare, Func<string, string> getvalue)
         {
             _name = name;
-            _value = value;
+            _prepare = prepare;
+            _getvalue = getvalue;
         }
 
-        public Token(string name, Func<string> value)
-        {
-            _name = name;
-            _value = s => value();
-        }
+        public Token(string name, Func<string, string> value): this(name, null, value) { }
 
-        public Token(string name, string value)
+        public Token(string name, Func<string> value) : this(name, null, s => value()) { }
+
+        public Token(string name, string value) : this(name, null, s => value) { }
+
+        public string Prepare(string body, Func<string, TokensSet[], string> process, TokensSet tokens_set)
         {
-            _name = name;
-            _value = s => value;
+            return _prepare != null ? _prepare(body, process, tokens_set) : body;
         }
 
         public string GetValue(string body)
         {
-            return _value(body);
+            return _getvalue(body);
         }
     }
 
@@ -263,7 +264,13 @@ namespace simplates
         {
             foreach (var tokens_set in tokens)
                 if (tokens_set.Contains(token.Name))
-                    return tokens_set[token.Name].GetValue(Process(token.Body, tokens));
+                {
+                    var token_ = tokens_set[token.Name];
+                    return token_.GetValue(
+                        Process(
+                            token_.Prepare(token.Body, Process, tokens_set), 
+                            tokens));
+                }
             throw new Exception(string.Format("Token {0} not found in data", token.Name));
         }
 
