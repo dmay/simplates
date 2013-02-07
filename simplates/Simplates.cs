@@ -8,9 +8,9 @@ namespace simplates
     {
         private readonly string _name;
         private readonly Func<string, string> _getvalue;
-        private readonly Func<string, Func<string, TokensSet[], string>, TokensSet, string> _prepare;
+        private readonly Func<string, Func<string, TokensSet[], string>, TokensSet[], string> _prepare;
 
-        public Token(string name, Func<string, Func<string, TokensSet[], string>, TokensSet, string> prepare, Func<string, string> getvalue)
+        public Token(string name, Func<string, Func<string, TokensSet[], string>, TokensSet[], string> prepare, Func<string, string> getvalue)
         {
             _name = name;
             _prepare = prepare;
@@ -23,9 +23,9 @@ namespace simplates
 
         public Token(string name, string value) : this(name, null, s => value) { }
 
-        public string Prepare(string body, Func<string, TokensSet[], string> process, TokensSet tokens_set)
+        public string Prepare(string body, Func<string, TokensSet[], string> process, TokensSet[] tokens)
         {
-            return _prepare != null ? _prepare(body, process, tokens_set) : body;
+            return _prepare != null ? _prepare(body, process, tokens) : body;
         }
 
         public string GetValue(string body)
@@ -268,7 +268,7 @@ namespace simplates
                     var token_ = tokens_set[token.Name];
                     return token_.GetValue(
                         Process(
-                            token_.Prepare(token.Body, Process, tokens_set), 
+                            token_.Prepare(token.Body, Process, tokens), 
                             tokens));
                 }
             throw new Exception(string.Format("Token {0} not found in data", token.Name));
