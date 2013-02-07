@@ -4,26 +4,31 @@ using System.Text;
 
 namespace simplates
 {
+    public delegate string ProcessValue(string text, params TokensSet[] tokens);
+    public delegate string ReadValue();
+    public delegate string GetValue(string text);
+    public delegate string PrepareValue(string text, ProcessValue process, TokensSet[] tokens);
+
     public class Token
     {
         private readonly string _name;
-        private readonly Func<string, string> _getvalue;
-        private readonly Func<string, Func<string, TokensSet[], string>, TokensSet[], string> _prepare;
+        private readonly GetValue _getvalue;
+        private readonly PrepareValue _prepare;
 
-        public Token(string name, Func<string, Func<string, TokensSet[], string>, TokensSet[], string> prepare, Func<string, string> getvalue)
+        public Token(string name, PrepareValue prepare, GetValue getvalue)
         {
             _name = name;
             _prepare = prepare;
             _getvalue = getvalue;
         }
 
-        public Token(string name, Func<string, string> value): this(name, null, value) { }
+        public Token(string name, GetValue value) : this(name, null, value) { }
 
-        public Token(string name, Func<string> value) : this(name, null, s => value()) { }
+        public Token(string name, ReadValue value) : this(name, null, s => value()) { }
 
         public Token(string name, string value) : this(name, null, s => value) { }
 
-        public string Prepare(string body, Func<string, TokensSet[], string> process, TokensSet[] tokens)
+        public string Prepare(string body, ProcessValue process, TokensSet[] tokens)
         {
             return _prepare != null ? _prepare(body, process, tokens) : body;
         }
@@ -49,13 +54,13 @@ namespace simplates
             return this;
         }
 
-        public TokensSet Add(string name, Func<string> value)
+        public TokensSet Add(string name, ReadValue value)
         {
             _tokens.Add(name, new Token(name, value));
             return this;
         }
 
-        public TokensSet Add(string name, Func<string, string> value)
+        public TokensSet Add(string name, GetValue value)
         {
             _tokens.Add(name, new Token(name, value));
             return this;
